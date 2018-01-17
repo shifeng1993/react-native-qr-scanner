@@ -18,7 +18,7 @@
   react-native link react-native-camera
   ```
 
-4. 添加相机权限：
+4. 添加应用权限：
 - ios在Info.plist:
 ```xml
 <key>NSCameraUsageDescription</key>
