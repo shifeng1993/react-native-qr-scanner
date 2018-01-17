@@ -9,8 +9,11 @@ import {
   Easing,
   Text,
   Image,
-  Vibration
+  Vibration,
+  NativeModules
 } from 'react-native';
+
+const CameraManager = NativeModules.CameraManager || NativeModules.CameraModule;
 
 /**
  * 扫描界面遮罩
@@ -335,7 +338,7 @@ export default class QRScannerView extends Component {
     //通过这句代码屏蔽 YellowBox
     console.disableYellowBox = true;
     this.state = {
-      scanning: false
+      scanning: false,
     }
   }
   static defaultProps =  {
@@ -343,7 +346,8 @@ export default class QRScannerView extends Component {
     renderTopView: () =>{},
     renderBottomView: ()=>{},
     rectHeight: 200,
-    rectWidth: 200
+    rectWidth: 200,
+    torchMode: false  // 手电筒模式
   }
   render() {
     return (
@@ -351,14 +355,15 @@ export default class QRScannerView extends Component {
         flex: 1
       }}>
         <Camera
-          onBarCodeRead={this._handleBarCodeRead}
-          style={{
+         style={{
           flex: 1
         }}
+          onBarCodeRead={this._handleBarCodeRead}
+          torchMode={this.props.torchMode ? CameraManager.TorchMode.on : CameraManager.TorchMode.off}
           barcodeFinderVisible={true}
 					barcodeFinderWidth={this.props.rectWidth}
 					barcodeFinderHeight={this.props.rectHeight}
-          barcodeFinderStyle={styles.container}>
+          barcodeFinderStyle={{borderWidth:0}}>
           <View style={[styles.topButtonsContainer, this.props.topViewStyle]}>
             {this.props.renderTopView()}
           </View>
@@ -495,5 +500,6 @@ QRScannerView.propTypes = {
   renderBottomView: PropTypes.func,
   isShowScanBar: PropTypes.bool,
   topViewStyle: PropTypes.object,
-  bottomViewStyle: PropTypes.object
+  bottomViewStyle: PropTypes.object,
+  torchMode: PropTypes.bool
 }

@@ -40,6 +40,8 @@ import QRScannerView from 'react-native-qr-scanner';
 ```
 
 ## props:
+- torchMode:bool                开启手电筒，默认false 关闭
+
 - onRead:func,                  扫描回调  (res)=>{}
 
 - maskColor: string,            遮罩层颜色
@@ -92,6 +94,15 @@ import QRScannerView from 'react-native-qr-scanner';
 
 - bottomViewStyle: object       render底部容器样式
 
+
+## 历史版本特性
+#### 1.0.0  上传基础组件
+
+#### 1.0.1  修复bug
+
+#### 1.0.2  修复bug
+
+#### 1.1.0  修复bug，新增手电筒api
 ## 示例代码
 
 ```javascript
@@ -122,7 +133,8 @@ class QrCode extends Component {
          />
         <QRScannerView
           onRead={this.onRead}
-          renderBottomView={() => this._renderMenu()}/>
+          renderBottomView={() => this._renderMenu()}
+          torchMode={true}/>
       </RootView>
     );
   }
