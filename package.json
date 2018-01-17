@@ -1,0 +1,27 @@
+{
+  "name": "qr-scanner-view",
+  "version": "1.0.0",
+  "description": "this is qrcode scanner.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "qrcode",
+    "scanner",
+    "react-native"
+  ],
+  "dependencies": {
+    "prop-types": "15.5.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/react-native-community/react-native-modal"
+  },
+  "devDependencies": {
+    "react": ">=15.0.0",
+    "react-native": ">=0.24.0"
+  },
+  "author": "haise",
+  "license": "ISC"
+}
