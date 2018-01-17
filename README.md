@@ -29,11 +29,17 @@
 <uses-permission android:name="android.permission.VIBRATE"/>
 ```
 
-5. 安装 `yarn add qr-scanner-view` or `npm install qr-scanner-view --save`
-
+5. 安装 `yarn add react-native-qr-scanner` or `npm install react-native-qr-scanner --save`
+  ```bash
+  yarn add react-native-qr-scanner
+  ```
+  or
+  ```bash
+  npm install react-native-qr-scanner --save
+  ```
 6. 使用：
 ```javascript
-import QRScannerView from 'qr-scanner-view';
+import QRScannerView from 'react-native-qr-scanner';
 ```
 
 ## props:
