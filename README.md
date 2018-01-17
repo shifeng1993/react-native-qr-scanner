@@ -92,3 +92,69 @@ import QRScannerView from 'react-native-qr-scanner';
 
 - bottomViewStyle: object       render底部容器样式
 
+## 示例代码
+
+```javascript
+import React, {Component} from 'react';
+import {View} from 'react-native';
+import {Navigator, StatusBar, RootView} from '../../components';
+import QRScannerView from 'react-native-qr-scanner';
+
+class QrCode extends Component {
+  constructor(props){
+    super(props);
+    this.state={};
+  }
+  render() {
+    return (
+      <RootView>
+        <StatusBar
+          line={true}
+          lineColors={ThemeStyle.linearColor}
+          barStyle="light-content"/>
+        <Navigator
+          line={true}
+          lineColors={ThemeStyle.linearColor}
+          title="二维码/扫码"
+          titleColor={ThemeStyle.textColor}
+          renderLeft={this._navigatorLeft}
+          renderRight={()=> <View />}
+         />
+        <QRScannerView
+          onRead={this.onRead}
+          renderBottomView={() => this._renderMenu()}/>
+      </RootView>
+    );
+  }
+  // 导航左
+  _navigatorLeft = () => {
+    return (
+      <View>
+        <Icon
+          size={24}
+          name={'arrow-left'}
+          color={'#fff'}
+          onPress={() => this.props.navigation.goBack()}
+          style={{
+          textAlign: 'center',
+          backgroundColor:'rgba(0,0,0,0)'
+        }}/>
+      </View>
+    )
+  }
+
+  _renderMenu() {
+    return (
+      <View style={{height:200}}/>
+    )
+  }
+
+  onRead = ({data}) => {
+    toastShow('扫描成功,正在打开页面')
+    navigation.goBack();
+    this.timer = setTimeout(()=>navigation.navigate('AssetsInspt',{uuid: data}),1000);
+  }
+}
+
+export default QrCode;
+```
