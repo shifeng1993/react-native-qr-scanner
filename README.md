@@ -20,7 +20,7 @@
   ```
 
 4. 添加应用权限：
-- ios在Info.plist:
+- ios在 `ios/projectName/Info.plist`:
 ```xml
 <key>NSCameraUsageDescription</key>
 <string/>
@@ -31,7 +31,7 @@
 <key>NSPhotoLibraryAddUsageDescription</key>
 <string/>
 ```
-- android在AndroidManifest.xml:
+- android在 `android/app/src/main/AndroidManifest.xml`:
 ```xml
 <uses-permission android:name="android.permission.CAMERA" />
 <uses-permission android:name="android.permission.RECORD_AUDIO"/>
