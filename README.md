@@ -1,7 +1,7 @@
 # QRScannerView
 一个二维码扫描组件。
 
-## 使用步骤：
+## 安装步骤：
 
 1. 添加依赖 ，package.json中添加：
   ```json
@@ -10,8 +10,9 @@
 
 2. 安装依赖
   ```bash
-  yarn
+  yarn add react-native-qr-scanner
   ```
+  注： add时，会自动安装全部依赖，所以不用担心相机组件没有安装上
 
 3. link依赖库 
   ```bash
@@ -23,21 +24,32 @@
 ```xml
 <key>NSCameraUsageDescription</key>
 <string/>
+<key>NSPhotoLibraryUsageDescription</key>
+<string/>
+<key>NSMicrophoneUsageDescription</key>
+<string/>
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string/>
 ```
 - android在AndroidManifest.xml:
 ```xml
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-permission android:name="android.permission.RECORD_AUDIO"/>
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 <uses-permission android:name="android.permission.VIBRATE"/>
 ```
 
-5. 安装
-  ```bash
-  yarn add react-native-qr-scanner
-  ```
+## 使用组件
 
-6. 使用：
-```javascript
-import QRScannerView from 'react-native-qr-scanner';
+请看example文件夹中示例代码
+运行示例
+```bash
+$ cd example
+$ yarn
+$ react-native run-ios  或者 $ react-native run-android  
 ```
+示例中代码已link过，所以不用link
 
 ## props:
 - torchMode:bool                开启手电筒，默认false 关闭
@@ -97,76 +109,7 @@ import QRScannerView from 'react-native-qr-scanner';
 
 ## 历史版本特性
 #### 1.0.0  上传基础组件
-
 #### 1.0.1  修复bug
-
 #### 1.0.2  修复bug
-
 #### 1.1.0  修复bug，新增手电筒api
-## 示例代码
-
-```javascript
-import React, {Component} from 'react';
-import {View} from 'react-native';
-import {Navigator, StatusBar, RootView} from '../../components';
-import QRScannerView from 'react-native-qr-scanner';
-
-class QrCode extends Component {
-  constructor(props){
-    super(props);
-    this.state={};
-  }
-  render() {
-    return (
-      <RootView>
-        <StatusBar
-          line={true}
-          lineColors={ThemeStyle.linearColor}
-          barStyle="light-content"/>
-        <Navigator
-          line={true}
-          lineColors={ThemeStyle.linearColor}
-          title="二维码/扫码"
-          titleColor={ThemeStyle.textColor}
-          renderLeft={this._navigatorLeft}
-          renderRight={()=> <View />}
-         />
-        <QRScannerView
-          onRead={this.onRead}
-          renderBottomView={() => this._renderMenu()}
-          torchMode={true}/>
-      </RootView>
-    );
-  }
-  // 导航左
-  _navigatorLeft = () => {
-    return (
-      <View>
-        <Icon
-          size={24}
-          name={'arrow-left'}
-          color={'#fff'}
-          onPress={() => this.props.navigation.goBack()}
-          style={{
-          textAlign: 'center',
-          backgroundColor:'rgba(0,0,0,0)'
-        }}/>
-      </View>
-    )
-  }
-
-  _renderMenu() {
-    return (
-      <View style={{height:200}}/>
-    )
-  }
-
-  onRead = ({data}) => {
-    toastShow('扫描成功,正在打开页面')
-    navigation.goBack();
-    this.timer = setTimeout(()=>navigation.navigate('AssetsInspt',{uuid: data}),1000);
-  }
-}
-
-export default QrCode;
-```
+#### 1.1.1  修改文档错误地方，新增demo示例
