@@ -113,3 +113,4 @@ $ react-native run-ios  或者 $ react-native run-android
 #### 1.0.2  修复bug
 #### 1.1.0  修复bug，新增手电筒api
 #### 1.1.1  修改文档错误地方，新增demo示例
+#### 1.1.2  git保留demo示例，npm包去掉demo示例
