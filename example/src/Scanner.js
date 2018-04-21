@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import QRScannerView from 'react-native-qr-scanner';
+import QRScannerView from './QRScannerView';
 
 export default class Scanner extends Component {
   constructor(props) {

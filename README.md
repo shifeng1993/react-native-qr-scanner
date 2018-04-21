@@ -68,7 +68,7 @@ $ react-native run-ios  或者 $ react-native run-android
 | isLoading          | bool    | false          | 渲染加载动画  |
 | isCornerOffset     | bool    | true           | 边角是否偏移  |
 | cornerOffsetSize   | number  | 1              | 偏移量  |
-| bottomHeight       | number  | 0              | 底部预留高度  |
+| bottomHeight       | number  | 100            | 底部预留高度  |
 | scanBarAnimateTime | number  | 2500           | 扫描线时间  |
 | scanBarColor       | string  | '#22ff00'      | 扫描线颜色  |
 | scanBarImage       | any     | null           | 扫描线图片  |
@@ -78,7 +78,7 @@ $ react-native run-ios  或者 $ react-native run-android
 | hintTextStyle      | object  | {color: '#fff',fontSize: 14,backgroundColor: 'transparent'} | 提示字符串样式  |
 | hintTextPosition   | number  | 130            | 提示字符串距离容器底部的值  |
 | renderTopView      | func    | () =>{}        | render顶部View  |
-| renderBottomView   | func    | () =>{}        | render底部View  |
+| renderBottomView   | func    | ()=><View style={{flex:1,backgroundColor:'#0000004D'}}/> | render底部View  |
 | isShowScanBar      | bool    | true           | 是否显示扫描线  |
 | topViewStyle       | object  | null           | render顶部容器样式  |
 | bottomViewStyle    | object  | null           | render底部容器样式  |    
