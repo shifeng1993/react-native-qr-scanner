@@ -396,16 +396,18 @@ export default class QRScannerView extends Component {
       </View>
     );
   }
-  _setScanning(value) {
-    this.setState({scanning: value});
-  }
+  // _setScanning(value) {
+  //   this.setState({scanning: value});
+  // }
 
   _handleBarCodeRead = (res) => {
-    if (!this.state.scanning) {
-      Vibration.vibrate();
-      this._setScanning(true);
-      this.props.onRead(res)
-    }
+    Vibration.vibrate();
+    this.props.onRead(res)
+    // if (!this.state.scanning) {
+    //   Vibration.vibrate();
+    //   this._setScanning(true);
+    //   this.props.onRead(res)
+    // }
   }
 }
 
