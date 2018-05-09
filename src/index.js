@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import Camera from 'react-native-camera';
+import React, {Component,PureComponent} from 'react';
+import { RNCamera } from 'react-native-camera';
 import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
@@ -9,11 +9,8 @@ import {
   Easing,
   Text,
   Image,
-  Vibration,
-  NativeModules
+  Vibration
 } from 'react-native';
-
-const CameraManager = NativeModules.CameraManager || NativeModules.CameraModule;
 
 /**
  * 扫描界面遮罩
@@ -121,6 +118,9 @@ class QRScannerRectView extends Component {
   //测量扫描框的位置
   measureRectPosition = (e) => {
     let rectSize = e.layout;
+    rectSize.x += this.props.finderX
+    rectSize.y += this.props.finderY
+    this.props.returnSize(rectSize)
     this.setState({topHeight: rectSize.y, leftWidth: rectSize.x})
   }
 
@@ -208,11 +208,11 @@ class QRScannerRectView extends Component {
         style={[
         styles.container, this.getBottomHeight()
       ]}>
-
+        {/* <View style={{flex:1}}></View> */}
         <View
           style={[
-          styles.viewfinder, this.getRectSize()
-        ]}
+          styles.viewfinder, this.getRectSize(),{top:this.props.finderY,left:this.props.finderX}
+          ]}
           onLayout={({nativeEvent: e}) => this.measureRectPosition(e)}>
           <View
             style={[
@@ -269,7 +269,7 @@ class QRScannerRectView extends Component {
           style={[
           this.getBackgroundColor(),
           styles.topMask, {
-            bottom: this.getTopMaskHeight(),
+            bottom: this.getTopMaskHeight() - this.props.finderY * 3,
             top: 0,
             width: this.state.topWidth
           }
@@ -280,7 +280,8 @@ class QRScannerRectView extends Component {
           this.getBackgroundColor(),
           styles.leftMask, {
             height: this.getSideMaskHeight(),
-            width: this.getSideMaskWidth()
+            width: this.getSideMaskWidth() - this.props.finderX ,
+            bottom: this.getTopMaskHeight() - this.props.finderY * 3 - this.getSideMaskHeight()
           }
         ]}/>
 
@@ -289,7 +290,8 @@ class QRScannerRectView extends Component {
           this.getBackgroundColor(),
           styles.rightMask, {
             height: this.getSideMaskHeight(),
-            width: this.getSideMaskWidth()
+            width: this.getSideMaskWidth() - this.props.finderX * 3,
+            bottom: this.getTopMaskHeight() - this.props.finderY * 3 - this.getSideMaskHeight()
           }
         ]}/>
 
@@ -297,7 +299,7 @@ class QRScannerRectView extends Component {
           style={[
           this.getBackgroundColor(),
           styles.bottomMask, {
-            top: this.getBottomMaskHeight(),
+            top: this.getBottomMaskHeight() - this.props.finderY,
             width: this.state.topWidth
           }
         ]}/>
@@ -307,7 +309,7 @@ class QRScannerRectView extends Component {
           position: 'absolute',
           bottom: this.props.hintTextPosition
         }}>
-          <Text style={this.props.hintTextStyle}>{this.props.hintText}</Text>
+          <Text style={[this.props.hintTextStyle,{top:this.props.finderY,left:this.props.finderX}]}>{this.props.hintText}</Text>
         </View>
 
       </View>
@@ -332,13 +334,14 @@ class QRScannerRectView extends Component {
 /**
  * 扫描界面
  */
-export default class QRScannerView extends Component {
+export default class QRScannerView extends PureComponent {
   constructor(props) {
     super(props);
     //通过这句代码屏蔽 YellowBox
     console.disableYellowBox = true;
     this.state = {
       scanning: false,
+      barCodeSize: {}
     }
   }
   static defaultProps =  {
@@ -347,23 +350,23 @@ export default class QRScannerView extends Component {
     renderBottomView: ()=><View style={{flex:1,backgroundColor:'#0000004D'}}/>,
     rectHeight: 200,
     rectWidth: 200,
-    torchMode: false  // 手电筒模式
+    flashMode: false,  // 手电筒模式
+    finderX: 0,    // 取景器X轴偏移量
+    finderY: 0,     // 取景器Y轴偏移量
+    zoom: 0
   }
   render() {
     return (
       <View style={{
         flex: 1
       }}>
-        <Camera
+        <RNCamera
          style={{
           flex: 1
         }}
           onBarCodeRead={this._handleBarCodeRead}
-          torchMode={!this.props.torchMode ? CameraManager.TorchMode.off : CameraManager.TorchMode.on}
-          barcodeFinderVisible={true}
-					barcodeFinderWidth={this.props.rectWidth+30}
-					barcodeFinderHeight={this.props.rectHeight+140}
-          barcodeFinderStyle={{borderWidth:0}}>
+          flashMode={!this.props.flashMode ? RNCamera.Constants.FlashMode.off : RNCamera.Constants.FlashMode.torch} 
+          zoom={this.props.zoom}>
           <View style={[styles.topButtonsContainer, this.props.topViewStyle]}>
             {this.props.renderTopView()}
           </View>
@@ -388,26 +391,35 @@ export default class QRScannerView extends Component {
             hintTextStyle={this.props.hintTextStyle}
             scanBarImage={this.props.scanBarImage}
             hintTextPosition={this.props.hintTextPosition}
-            isShowScanBar={this.props.isShowScanBar}/>
+            isShowScanBar={this.props.isShowScanBar}
+            finderX={this.props.finderX}
+            finderY={this.props.finderY}
+            returnSize={this.barCodeSize}/>
           <View style={[styles.bottomButtonsContainer, this.props.bottomViewStyle]}>
             {this.props.renderBottomView()}
           </View>
-        </Camera>
+        </RNCamera>
       </View>
     );
   }
-  // _setScanning(value) {
-  //   this.setState({scanning: value});
-  // }
-
-  _handleBarCodeRead = (res) => {
-    Vibration.vibrate();
-    this.props.onRead(res)
-    // if (!this.state.scanning) {
-    //   Vibration.vibrate();
-    //   this._setScanning(true);
-    //   this.props.onRead(res)
-    // }
+  isShowCode = false;
+  barCodeSize = (size) => this.setState({barCodeSize:size})
+  _handleBarCodeRead = (e) => {
+    let x = Number(e.bounds.origin.x)
+    let y = Number(e.bounds.origin.y)
+    let width = e.bounds.size.width
+    let height = e.bounds.size.height
+    let viewMinX = this.state.barCodeSize.x - this.props.finderX
+    let viewMinY = this.state.barCodeSize.y - this.props.finderY
+    let viewMaxX = this.state.barCodeSize.x + this.state.barCodeSize.width - width - this.props.finderX
+    let viewMaxY = this.state.barCodeSize.y + this.state.barCodeSize.height - height - this.props.finderY
+    if ((x > viewMinX && y > viewMinY) && (x < viewMaxX && y < viewMaxY)) {
+      if (!this.isShowCode) {
+        this.isShowCode = true;
+        Vibration.vibrate();
+        this.props.onRead(e)
+      }
+    }
   }
 }
 
@@ -503,5 +515,8 @@ QRScannerView.propTypes = {
   isShowScanBar: PropTypes.bool,
   topViewStyle: PropTypes.object,
   bottomViewStyle: PropTypes.object,
-  torchMode: PropTypes.bool
+  flashMode: PropTypes.bool,
+  finderX: PropTypes.number,
+  finderY: PropTypes.number,
+  zoom: PropTypes.number
 }

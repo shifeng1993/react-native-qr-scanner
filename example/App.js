@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import {StackNavigator, TabNavigator} from 'react-navigation';
+import {createStackNavigator, TabNavigator} from 'react-navigation';
 
 import Home from './src/Home'
 import Scanner from './src/Scanner'
 
-const AppNavigator = StackNavigator({
+const AppNavigator = createStackNavigator({
   Home: {
     screen: Home
   },
