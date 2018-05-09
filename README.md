@@ -61,7 +61,7 @@ $ react-native run-ios  或者 $ react-native run-android
 | rectHeight         | number  | 200            | 扫描框高度  |
 | rectWidth          | number  | 200            | 扫描框宽度  |
 | finderX             | number  | 0            | 扫描框X轴偏移量  |
-| finderY             | number  | 0            | 扫描框宽度  |
+| finderY             | number  | 0            | 扫描框Y轴偏移量  |
 | isLoading          | bool    | false          | 渲染加载动画  |
 | isCornerOffset     | bool    | true           | 边角是否偏移  |
 | cornerOffsetSize   | number  | 1              | 偏移量  |
