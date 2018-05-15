@@ -7,17 +7,17 @@
 目前版本android暂时不能限制扫描区域和扫描区域偏移量，会在后续版本中修复，最新react-native-camera报错，请参考示例中编译配置
 ## 安装步骤：
 
-1. 安装依赖
+#### 安装依赖
   ```bash
   yarn add react-native-camera react-native-qr-scanner
   ```
 
-2. link依赖到native 
+#### link依赖到native 
   ```bash
   react-native link react-native-camera
   ```
 
-3. 添加相机权限：
+#### 添加相机权限：
 - ios在 `ios/projectName/Info.plist`:
 ```xml
 <key>NSCameraUsageDescription</key>
@@ -38,7 +38,7 @@
 <uses-permission android:name="android.permission.VIBRATE"/>
 ```
 
-4. 使用组件
+#### 使用组件
 
 请看example文件夹中示例代码
 运行示例
