@@ -2,9 +2,8 @@
 [![NPM Version](https://img.shields.io/npm/v/react-native-qr-scanner.svg?style=flat)](https://www.npmjs.com/package/react-native-qr-scanner)
   [![License](http://img.shields.io/npm/l/react-native-qr-scanner.svg?style=flat)](https://github.com/shifeng1993/react-native-qr-scanner/blob/master/LICENSE)
 
-一个二维码扫描组件。
+一个react-native的二维码扫描组件，支持扫描区域的限制以及扫描区域的偏移。
 
-目前版本android暂时不能限制扫描区域和扫描区域偏移量，会在后续版本中修复，最新react-native-camera报错，请参考示例中编译配置
 ## 安装步骤：
 
 ### 安装依赖
@@ -86,6 +85,7 @@ $ react-native run-ios  或者 $ react-native run-android
 
 
 ## 历史版本特性
+#### 1.2.1  修复android的报错以及android扫描区域的bug
 #### 1.2.0  修改底层依赖相机组件，添加扫描区域，并设置XY轴偏移量
 #### 1.1.3  完善文档
 #### 1.1.2  git保留demo示例，npm包去掉demo示例
