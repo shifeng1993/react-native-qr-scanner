@@ -1,6 +1,7 @@
 # QRScannerView
 [![NPM Version](https://img.shields.io/npm/v/react-native-qr-scanner.svg?style=flat)](https://www.npmjs.com/package/react-native-qr-scanner)
   [![License](http://img.shields.io/npm/l/react-native-qr-scanner.svg?style=flat)](https://github.com/shifeng1993/react-native-qr-scanner/blob/master/LICENSE)
+  
 一个二维码扫描组件。
 
 目前版本android暂时不能限制扫描区域和扫描区域偏移量，会在后续版本中修复，最新react-native-camera报错，请参考示例中编译配置
