@@ -38,9 +38,36 @@
 ```
 
 ### 使用组件
+```javascript
+import React, {Component} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {QRscanner} from 'react-native-qr-scanner';
 
-请看example文件夹中示例代码
-运行示例
+export default class Scanner extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  render() {
+    return (
+      <View style={styles.container}>
+        <QRscanner onRead={this.onRead} finderY={-20}/>
+      </View>
+    );
+  }
+  onRead = (res) => {
+    console.log(res);
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000'
+  }
+});
+```
+### 运行示例
 ```bash
 $ cd example
 $ yarn
