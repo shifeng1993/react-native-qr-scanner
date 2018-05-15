@@ -9,7 +9,8 @@ import {
   Easing,
   Text,
   Image,
-  Vibration
+  Vibration,
+  Platform
 } from 'react-native';
 
 /**
@@ -405,15 +406,23 @@ export default class QRScannerView extends PureComponent {
   isShowCode = false;
   barCodeSize = (size) => this.setState({barCodeSize:size})
   _handleBarCodeRead = (e) => {
-    let x = Number(e.bounds.origin.x)
-    let y = Number(e.bounds.origin.y)
-    let width = e.bounds.size.width
-    let height = e.bounds.size.height
-    let viewMinX = this.state.barCodeSize.x - this.props.finderX
-    let viewMinY = this.state.barCodeSize.y - this.props.finderY
-    let viewMaxX = this.state.barCodeSize.x + this.state.barCodeSize.width - width - this.props.finderX
-    let viewMaxY = this.state.barCodeSize.y + this.state.barCodeSize.height - height - this.props.finderY
-    if ((x > viewMinX && y > viewMinY) && (x < viewMaxX && y < viewMaxY)) {
+    if (Platform.OS === 'ios') {
+      let x = Number(e.bounds.origin.x)
+      let y = Number(e.bounds.origin.y)
+      let width = e.bounds.size.width
+      let height = e.bounds.size.height
+      let viewMinX = this.state.barCodeSize.x - this.props.finderX
+      let viewMinY = this.state.barCodeSize.y - this.props.finderY
+      let viewMaxX = this.state.barCodeSize.x + this.state.barCodeSize.width - width - this.props.finderX
+      let viewMaxY = this.state.barCodeSize.y + this.state.barCodeSize.height - height - this.props.finderY
+      if ((x > viewMinX && y > viewMinY) && (x < viewMaxX && y < viewMaxY)) {
+        if (!this.isShowCode) {
+          this.isShowCode = true;
+          Vibration.vibrate();
+          this.props.onRead(e)
+        }
+      }
+    } else {
       if (!this.isShowCode) {
         this.isShowCode = true;
         Vibration.vibrate();
