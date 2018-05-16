@@ -23,5 +23,5 @@
     "react-native": ">=0.24.0"
   },
   "author": "haise",
-  "license": "ISC"
+  "license": "MIT"
 }
