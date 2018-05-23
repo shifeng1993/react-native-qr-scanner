@@ -40,7 +40,8 @@ export default class QRScanner extends PureComponent {
     finderX: 0,    // 取景器X轴偏移量
     finderY: 0,     // 取景器Y轴偏移量
     zoom: 0,
-    translucent: false
+    translucent: false,
+    isRepeatScan: false
   }
   
   render() {
@@ -110,10 +111,15 @@ export default class QRScanner extends PureComponent {
       let viewMaxX = this.state.barCodeSize.x + this.state.barCodeSize.width - width - this.props.finderX
       let viewMaxY = this.state.barCodeSize.y + this.state.barCodeSize.height - height - this.props.finderY
       if ((x > viewMinX && y > viewMinY) && (x < viewMaxX && y < viewMaxY)) {
-        if (!this.isShowCode) {
-          this.isShowCode = true;
+        if (this.props.isRepeatScan) {
           Vibration.vibrate();
           this.props.onRead(e)
+        } else {
+          if (!this.isShowCode) {
+            this.isShowCode = true;
+            Vibration.vibrate();
+            this.props.onRead(e)
+          }
         }
       }
     } else {
@@ -131,10 +137,15 @@ export default class QRScanner extends PureComponent {
       let viewMaxY = this.state.barCodeSize.y + this.state.barCodeSize.height*2 / pixelRatio - height - this.props.finderY *4/pixelRatio  - (this.props.translucent ? 0 : StatusBar.currentHeight)*2/pixelRatio - (this.props.finderY < 0 ? this.props.finderY/5 : 0 )
       if(x&&y) {
         if ((x > viewMinX && y > viewMinY) && (x < viewMaxX && y < viewMaxY)) {
-          if (!this.isShowCode) {
-            this.isShowCode = true;
+          if (this.props.isRepeatScan) {
             Vibration.vibrate();
             this.props.onRead(e)
+          } else {
+            if (!this.isShowCode) {
+              this.isShowCode = true;
+              Vibration.vibrate();
+              this.props.onRead(e)
+            }
           }
         }
       }
@@ -160,7 +171,8 @@ const styles = StyleSheet.create({
 });
 
 QRScanner.propTypes = {
-  onRead:PropTypes.func,
+  isRepeatScan: PropTypes.bool,
+  onRead: PropTypes.func,
   maskColor: PropTypes.string,
   borderColor: PropTypes.string,
   cornerColor: PropTypes.string,

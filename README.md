@@ -79,6 +79,7 @@ $ react-native run-ios  或者 $ react-native run-android
 
 | 属性                | 类型    | 默认值          | 备注 |
 | -------------      | ------- | -------------  | ------------- |
+| isRepeatScan       | boolean    | false          |   是否重复扫描  |
 | zoom          | number    | 0          |   相机焦距 范围0-1  |
 | flashMode          | bool    | false          |   开启手电筒  |
 | onRead             | func    | (res)=>{}      | 扫描回调 |
@@ -112,6 +113,7 @@ $ react-native run-ios  或者 $ react-native run-android
 
 
 ## 历史版本特性
+#### 1.2.2  添加是否允许重复扫描的api
 #### 1.2.1  修复android的报错以及android扫描区域的bug
 #### 1.2.0  修改底层依赖相机组件，添加扫描区域，并设置XY轴偏移量
 #### 1.1.3  完善文档
