@@ -113,6 +113,7 @@ $ react-native run-ios  或者 $ react-native run-android
 
 
 ## 历史版本特性
+#### 1.2.4  限制扫码类型，修复android报错
 #### 1.2.2  添加是否允许重复扫描的api
 #### 1.2.1  修复android的报错以及android扫描区域的bug
 #### 1.2.0  修改底层依赖相机组件，添加扫描区域，并设置XY轴偏移量

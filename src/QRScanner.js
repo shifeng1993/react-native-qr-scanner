@@ -54,6 +54,7 @@ export default class QRScanner extends PureComponent {
           flex: 1
         }}
           onBarCodeRead={this._handleBarCodeRead}
+          barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
           flashMode={!this.props.flashMode ? RNCamera.Constants.FlashMode.off : RNCamera.Constants.FlashMode.torch} 
           zoom={this.props.zoom}>
           <View style={[styles.topButtonsContainer, this.props.topViewStyle]}>
@@ -123,6 +124,7 @@ export default class QRScanner extends PureComponent {
         }
       }
     } else {
+      if (!e.bounds[0].x || !e.bounds[0].y || !e.bounds[1].x || !e.bounds[1].y || !e.bounds[2].x || !e.bounds[2].y || !e.bounds[3].x || !e.bounds[3].y) return null;
       const leftBottom = {x: e.bounds[0].x / pixelRatio, y: e.bounds[0].y / pixelRatio}
       const leftTop= {x: e.bounds[1].x / pixelRatio, y: e.bounds[1].y / pixelRatio}
       const rightTop = {x: e.bounds[2].x / pixelRatio, y: e.bounds[2].y / pixelRatio}
