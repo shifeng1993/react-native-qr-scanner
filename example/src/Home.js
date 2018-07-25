@@ -13,7 +13,13 @@ export default class Home extends Component {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => this.props.navigation.navigate('Scanner')}>
-          <Text>点击跳到扫描页面</Text>
+          <Text>点击跳到扫描二维码页面</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => this.props.navigation.navigate('Reader')}>
+          <Text>点击跳到读取二维码页面</Text>
         </TouchableOpacity>
       </View>
     );

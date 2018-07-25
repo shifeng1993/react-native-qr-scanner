@@ -4,6 +4,7 @@ import {createStackNavigator, TabNavigator} from 'react-navigation';
 
 import Home from './src/Home'
 import Scanner from './src/Scanner'
+import Reader from './src/Reader'
 
 const AppNavigator = createStackNavigator({
   Home: {
@@ -11,6 +12,9 @@ const AppNavigator = createStackNavigator({
   },
   Scanner: {
     screen: Scanner
+  },
+  Reader: {
+    screen: Reader
   }
 }, {
   initialRouteName: 'Home',
