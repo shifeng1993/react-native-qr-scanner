@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import {createStackNavigator, TabNavigator} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation';
 
 import Home from './src/Home'
 import Scanner from './src/Scanner'
