@@ -36,10 +36,10 @@ export default class QRScanner extends PureComponent {
     renderBottomView: ()=><View style={{flex:1,backgroundColor:'#0000004D'}}/>,
     rectHeight: 200,
     rectWidth: 200,
-    flashMode: false,  // 手电筒模式
-    finderX: 0,    // 取景器X轴偏移量
-    finderY: 0,     // 取景器Y轴偏移量
-    zoom: 0,
+    flashMode: false,   // 手电筒模式
+    finderX: 0,         // 取景器X轴偏移量
+    finderY: 0,         // 取景器Y轴偏移量
+    zoom: 0.2,          // 缩放范围 0 - 1
     translucent: false,
     isRepeatScan: false
   }
@@ -69,7 +69,6 @@ export default class QRScanner extends PureComponent {
             borderWidth={this.props.borderWidth}
             cornerBorderWidth={this.props.cornerBorderWidth}
             cornerBorderLength={this.props.cornerBorderLength}
-            isLoading={this.props.isLoading}
             cornerOffsetSize={this.props.cornerOffsetSize}
             isCornerOffset={this.props.isCornerOffset}
             bottomHeight={this.props.bottomHeight}
@@ -101,16 +100,45 @@ export default class QRScanner extends PureComponent {
 
   returnMin= (a,b) =>  a < b ? a : b
 
-  _handleBarCodeRead = (e) => {
-    if (Platform.OS === 'ios') {
-      let x = Number(e.bounds.origin.x)
-      let y = Number(e.bounds.origin.y)
-      let width = e.bounds.size.width
-      let height = e.bounds.size.height
-      let viewMinX = this.state.barCodeSize.x - this.props.finderX
-      let viewMinY = this.state.barCodeSize.y - this.props.finderY
-      let viewMaxX = this.state.barCodeSize.x + this.state.barCodeSize.width - width - this.props.finderX
-      let viewMaxY = this.state.barCodeSize.y + this.state.barCodeSize.height - height - this.props.finderY
+  iosBarCode = (e) => {
+    let x = Number(e.bounds.origin.x)
+    let y = Number(e.bounds.origin.y)
+    let width = e.bounds.size.width
+    let height = e.bounds.size.height
+    let viewMinX = this.state.barCodeSize.x - this.props.finderX
+    let viewMinY = this.state.barCodeSize.y - this.props.finderY
+    let viewMaxX = this.state.barCodeSize.x + this.state.barCodeSize.width - width - this.props.finderX
+    let viewMaxY = this.state.barCodeSize.y + this.state.barCodeSize.height - height - this.props.finderY
+    if ((x > viewMinX && y > viewMinY) && (x < viewMaxX && y < viewMaxY)) {
+      if (this.props.isRepeatScan) {
+        Vibration.vibrate();
+        this.props.onRead(e)
+      } else {
+        if (!this.isShowCode) {
+          this.isShowCode = true;
+          Vibration.vibrate();
+          this.props.onRead(e)
+        }
+      }
+    }
+  }
+
+  androidBarCode = (e) => {
+    if (!e.bounds[0] || !e.bounds[1] || !e.bounds[2] || !e.bounds[3]) return null;
+    if (!e.bounds[0].x || !e.bounds[0].y || !e.bounds[1].x || !e.bounds[1].y || !e.bounds[2].x || !e.bounds[2].y || !e.bounds[3].x || !e.bounds[3].y) return null;
+    const leftBottom = {x: e.bounds[0].x / pixelRatio, y: e.bounds[0].y / pixelRatio}
+    const leftTop= {x: e.bounds[1].x / pixelRatio, y: e.bounds[1].y / pixelRatio}
+    const rightTop = {x: e.bounds[2].x / pixelRatio, y: e.bounds[2].y / pixelRatio}
+    const rightBottom = {x: e.bounds[3].x / pixelRatio, y: e.bounds[3].y / pixelRatio}
+    let x = this.returnMin(leftTop.x, leftBottom.x);
+    let y = this.returnMin(leftTop.y, rightTop.y);
+    let width = this.returnMax(rightTop.x - leftTop.x, rightBottom.x - leftBottom.x)
+    let height = this.returnMax(leftBottom.y - leftTop.y , rightBottom.y - rightTop.y)
+    let viewMinX = this.state.barCodeSize.x - this.props.finderX * 4 / pixelRatio - (this.props.finderX > 0 ? this.props.finderX/10 : 0)
+    let viewMinY = this.state.barCodeSize.y - this.props.finderY * 4 / pixelRatio - (this.props.translucent ? 0 : StatusBar.currentHeight)*2/pixelRatio - (this.props.finderY > 0 ? this.props.finderY/3 : this.props.finderY/10*(-1))
+    let viewMaxX = this.state.barCodeSize.x + 20 + this.state.barCodeSize.width*2 / pixelRatio - width - this.props.finderX *4/pixelRatio - (this.props.finderX < 0 ? 0 : this.props.finderX/5)
+    let viewMaxY = this.state.barCodeSize.y + this.state.barCodeSize.height*2 / pixelRatio - height - this.props.finderY *4/pixelRatio  - (this.props.translucent ? 0 : StatusBar.currentHeight)*2/pixelRatio - (this.props.finderY < 0 ? this.props.finderY/5 : 0 )
+    if(x&&y) {
       if ((x > viewMinX && y > viewMinY) && (x < viewMaxX && y < viewMaxY)) {
         if (this.props.isRepeatScan) {
           Vibration.vibrate();
@@ -123,34 +151,19 @@ export default class QRScanner extends PureComponent {
           }
         }
       }
-    } else {
-      if (!e.bounds[0].x || !e.bounds[0].y || !e.bounds[1].x || !e.bounds[1].y || !e.bounds[2].x || !e.bounds[2].y || !e.bounds[3].x || !e.bounds[3].y) return null;
-      const leftBottom = {x: e.bounds[0].x / pixelRatio, y: e.bounds[0].y / pixelRatio}
-      const leftTop= {x: e.bounds[1].x / pixelRatio, y: e.bounds[1].y / pixelRatio}
-      const rightTop = {x: e.bounds[2].x / pixelRatio, y: e.bounds[2].y / pixelRatio}
-      const rightBottom = {x: e.bounds[3].x / pixelRatio, y: e.bounds[3].y / pixelRatio}
-      let x = this.returnMin(leftTop.x, leftBottom.x);
-      let y = this.returnMin(leftTop.y, rightTop.y);
-      let width = this.returnMax(rightTop.x - leftTop.x, rightBottom.x - leftBottom.x)
-      let height = this.returnMax(leftBottom.y - leftTop.y , rightBottom.y - rightTop.y)
-      let viewMinX = this.state.barCodeSize.x - this.props.finderX * 4 / pixelRatio - (this.props.finderX > 0 ? this.props.finderX/10 : 0)
-      let viewMinY = this.state.barCodeSize.y - this.props.finderY * 4 / pixelRatio - (this.props.translucent ? 0 : StatusBar.currentHeight)*2/pixelRatio - (this.props.finderY > 0 ? this.props.finderY/3 : this.props.finderY/10*(-1))
-      let viewMaxX = this.state.barCodeSize.x + 20 + this.state.barCodeSize.width*2 / pixelRatio - width - this.props.finderX *4/pixelRatio - (this.props.finderX < 0 ? 0 : this.props.finderX/5)
-      let viewMaxY = this.state.barCodeSize.y + this.state.barCodeSize.height*2 / pixelRatio - height - this.props.finderY *4/pixelRatio  - (this.props.translucent ? 0 : StatusBar.currentHeight)*2/pixelRatio - (this.props.finderY < 0 ? this.props.finderY/5 : 0 )
-      if(x&&y) {
-        if ((x > viewMinX && y > viewMinY) && (x < viewMaxX && y < viewMaxY)) {
-          if (this.props.isRepeatScan) {
-            Vibration.vibrate();
-            this.props.onRead(e)
-          } else {
-            if (!this.isShowCode) {
-              this.isShowCode = true;
-              Vibration.vibrate();
-              this.props.onRead(e)
-            }
-          }
-        }
-      }
+    }
+  }
+
+  _handleBarCodeRead = (e) => {
+    switch (Platform.OS) {
+      case 'ios':
+    this.iosBarCode(e);
+        break;
+      case 'android':
+        this.androidBarCode(e);
+        break;
+      default:
+        break;
     }
   }
 }
@@ -183,7 +196,6 @@ QRScanner.propTypes = {
   cornerBorderLength: PropTypes.number,
   rectHeight: PropTypes.number,
   rectWidth: PropTypes.number,
-  isLoading: PropTypes.bool,
   isCornerOffset: PropTypes.bool, //边角是否偏移
   cornerOffsetSize: PropTypes.number,
   bottomHeight: PropTypes.number,

@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Created by lewin on 2018/3/14.
+ */
 
 public class QRScanReaderPackage implements ReactPackage {
     @Override

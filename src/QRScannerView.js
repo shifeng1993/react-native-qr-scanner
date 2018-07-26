@@ -26,7 +26,6 @@ export default class QRScannerView extends Component {
     borderWidth: 0,
     cornerBorderWidth: 4,
     cornerBorderLength: 20,
-    isLoading: false,
     cornerOffsetSize: 1,
     isCornerOffset: true,
     bottomHeight: 100,
@@ -95,18 +94,6 @@ export default class QRScannerView extends Component {
   //获取扫描框颜色
   getBorderColor = () => {
     return ({borderColor: this.props.borderColor});
-  }
-
-  //渲染加载动画
-  renderLoadingIndicator = () => {
-    if (!this.props.isLoading) {
-      return null;
-    }
-
-    return (<ActivityIndicator
-      animating={this.props.isLoading}
-      color={this.props.color}
-      size='large'/>);
   }
 
   //测量整个扫描组件的大小
@@ -244,7 +231,6 @@ export default class QRScannerView extends Component {
               borderTopWidth: this.props.cornerBorderWidth
             }
           ]}/>
-          {this.renderLoadingIndicator()}
           <View
             style={[
             this.getCornerColor(),

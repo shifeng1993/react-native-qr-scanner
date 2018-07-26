@@ -22,6 +22,10 @@ import com.google.zxing.qrcode.QRCodeReader;
 
 import java.util.Hashtable;
 
+/**
+ * Created by lewin on 2018/3/14.
+ */
+
 public class QRScanReader extends ReactContextBaseJavaModule {
 
     public QRScanReader(ReactApplicationContext reactContext) {
