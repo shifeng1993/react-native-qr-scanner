@@ -124,32 +124,43 @@ export default class QRScanner extends PureComponent {
   }
 
   androidBarCode = (e) => {
-    if (!e.bounds[0] || !e.bounds[1] || !e.bounds[2] || !e.bounds[3]) return null;
-    if (!e.bounds[0].x || !e.bounds[0].y || !e.bounds[1].x || !e.bounds[1].y || !e.bounds[2].x || !e.bounds[2].y || !e.bounds[3].x || !e.bounds[3].y) return null;
-    const leftBottom = {x: e.bounds[0].x / pixelRatio, y: e.bounds[0].y / pixelRatio}
-    const leftTop= {x: e.bounds[1].x / pixelRatio, y: e.bounds[1].y / pixelRatio}
-    const rightTop = {x: e.bounds[2].x / pixelRatio, y: e.bounds[2].y / pixelRatio}
-    const rightBottom = {x: e.bounds[3].x / pixelRatio, y: e.bounds[3].y / pixelRatio}
-    let x = this.returnMin(leftTop.x, leftBottom.x);
-    let y = this.returnMin(leftTop.y, rightTop.y);
-    let width = this.returnMax(rightTop.x - leftTop.x, rightBottom.x - leftBottom.x)
-    let height = this.returnMax(leftBottom.y - leftTop.y , rightBottom.y - rightTop.y)
-    let viewMinX = this.state.barCodeSize.x - this.props.finderX * 4 / pixelRatio - (this.props.finderX > 0 ? this.props.finderX/10 : 0)
-    let viewMinY = this.state.barCodeSize.y - this.props.finderY * 4 / pixelRatio - (this.props.translucent ? 0 : StatusBar.currentHeight)*2/pixelRatio - (this.props.finderY > 0 ? this.props.finderY/3 : this.props.finderY/10*(-1))
-    let viewMaxX = this.state.barCodeSize.x + 20 + this.state.barCodeSize.width*2 / pixelRatio - width - this.props.finderX *4/pixelRatio - (this.props.finderX < 0 ? 0 : this.props.finderX/5)
-    let viewMaxY = this.state.barCodeSize.y + this.state.barCodeSize.height*2 / pixelRatio - height - this.props.finderY *4/pixelRatio  - (this.props.translucent ? 0 : StatusBar.currentHeight)*2/pixelRatio - (this.props.finderY < 0 ? this.props.finderY/5 : 0 )
-    if(x&&y) {
-      if ((x > viewMinX && y > viewMinY) && (x < viewMaxX && y < viewMaxY)) {
-        if (this.props.isRepeatScan) {
-          Vibration.vibrate();
-          this.props.onRead(e)
-        } else {
-          if (!this.isShowCode) {
-            this.isShowCode = true;
-            Vibration.vibrate();
-            this.props.onRead(e)
-          }
-        }
+    // if (!e.bounds[0] || !e.bounds[1] || !e.bounds[2] || !e.bounds[3]) return null;
+    // const leftBottom = {x: e.bounds[0].x / pixelRatio, y: e.bounds[0].y / pixelRatio}
+    // const leftTop= {x: e.bounds[1].x / pixelRatio, y: e.bounds[1].y / pixelRatio}
+    // const rightTop = {x: e.bounds[2].x / pixelRatio, y: e.bounds[2].y / pixelRatio}
+    // const rightBottom = {x: e.bounds[3].x / pixelRatio, y: e.bounds[3].y / pixelRatio}
+    // let x = this.returnMin(leftTop.x, leftBottom.x);
+    // let y = this.returnMin(leftTop.y, rightTop.y);
+    // let width = this.returnMax(rightTop.x - leftTop.x, rightBottom.x - leftBottom.x)
+    // let height = this.returnMax(leftBottom.y - leftTop.y , rightBottom.y - rightTop.y)
+    // let viewMinX = this.state.barCodeSize.x - this.props.finderX * 4 / pixelRatio - (this.props.finderX > 0 ? this.props.finderX/10 : 0)
+    // let viewMinY = this.state.barCodeSize.y - this.props.finderY * 4 / pixelRatio - (this.props.translucent ? 0 : StatusBar.currentHeight)*2/pixelRatio - (this.props.finderY > 0 ? this.props.finderY/3 : this.props.finderY/10*(-1))
+    // let viewMaxX = this.state.barCodeSize.x + 20 + this.state.barCodeSize.width*2 / pixelRatio - width - this.props.finderX *4/pixelRatio - (this.props.finderX < 0 ? 0 : this.props.finderX/5)
+    // let viewMaxY = this.state.barCodeSize.y + this.state.barCodeSize.height*2 / pixelRatio - height - this.props.finderY *4/pixelRatio  - (this.props.translucent ? 0 : StatusBar.currentHeight)*2/pixelRatio - (this.props.finderY < 0 ? this.props.finderY/5 : 0 )
+    // if(x&&y) {
+    //   if ((x > viewMinX && y > viewMinY) && (x < viewMaxX && y < viewMaxY)) {
+    //     if (this.props.isRepeatScan) {
+    //       Vibration.vibrate();
+    //       this.props.onRead(e)
+    //     } else {
+    //       if (!this.isShowCode) {
+    //         this.isShowCode = true;
+    //         Vibration.vibrate();
+    //         this.props.onRead(e)
+    //       }
+    //     }
+    //   }
+    // }
+
+     // 以下是不限制扫描区域
+    if (this.props.isRepeatScan) {
+      Vibration.vibrate();
+      this.props.onRead(e)
+    } else {
+      if (!this.isShowCode) {
+        this.isShowCode = true;
+        Vibration.vibrate();
+        this.props.onRead(e)
       }
     }
   }
