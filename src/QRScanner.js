@@ -53,6 +53,7 @@ export default class QRScanner extends PureComponent {
          style={{
           flex: 1
         }}
+          captureAudio = {false}
           onBarCodeRead={this._handleBarCodeRead}
           barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
           flashMode={!this.props.flashMode ? RNCamera.Constants.FlashMode.off : RNCamera.Constants.FlashMode.torch} 
