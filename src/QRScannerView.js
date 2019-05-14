@@ -52,6 +52,7 @@ export default class QRScannerView extends Component {
       leftWidth: 0,
       animatedValue: new Animated.Value(0)
     }
+    this.isClosed = false;
   }
 
   //获取背景颜色
@@ -306,7 +307,15 @@ export default class QRScannerView extends Component {
     this.scannerLineMove();
   }
 
+  componentWillUnmount() {
+    this.isClosed = true;
+}
+
   scannerLineMove() {
+    if (this.isClosed) {
+      return;
+    }
+
     this.state.animatedValue.setValue(0); //重置Rotate动画值为0
     Animated.timing(
       this.state.animatedValue,
