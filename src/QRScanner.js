@@ -41,9 +41,10 @@ export default class QRScanner extends PureComponent {
     finderY: 0,         // 取景器Y轴偏移量
     zoom: 0.2,          // 缩放范围 0 - 1
     translucent: false,
-    isRepeatScan: false
+    isRepeatScan: false,
+    cameraType: 'back'
   }
-  
+
   render() {
     return (
       <View style={{
@@ -55,8 +56,9 @@ export default class QRScanner extends PureComponent {
         }}
           onBarCodeRead={this._handleBarCodeRead}
           barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
-          flashMode={!this.props.flashMode ? RNCamera.Constants.FlashMode.off : RNCamera.Constants.FlashMode.torch} 
-          zoom={this.props.zoom}>
+          flashMode={!this.props.flashMode ? RNCamera.Constants.FlashMode.off : RNCamera.Constants.FlashMode.torch}
+          zoom={this.props.zoom}
+          type={this.props.cameraType}>
           <View style={[styles.topButtonsContainer, this.props.topViewStyle]}>
             {this.props.renderTopView()}
           </View>
@@ -227,5 +229,6 @@ QRScanner.propTypes = {
   finderX: PropTypes.number,
   finderY: PropTypes.number,
   zoom: PropTypes.number,
-  translucent: PropTypes.bool
+  translucent: PropTypes.bool,
+  cameraType: PropTypes.string
 }
