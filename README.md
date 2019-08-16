@@ -13,14 +13,18 @@ or add next line to package.json
 run
 npm install
 ```
-#then run
+```bash
+then run
+
 react-native link react-native-qr-scanner
-#also do
+
+also do
+
 cd ios
 pod install
 ```
 ```bash
-#then 
+then 
 react-native run-android
 or
 react-native run-ios
