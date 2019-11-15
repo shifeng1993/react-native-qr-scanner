@@ -1,19 +1,11 @@
 import React, {PureComponent} from 'react';
-import { RNCamera } from 'react-native-camera';
+import {RNCamera} from 'react-native-camera';
 import PropTypes from 'prop-types';
 
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  Vibration,
-  Platform,
-  PixelRatio,
-  StatusBar
-} from 'react-native';
+import {PixelRatio, Platform, StyleSheet, Vibration, View} from 'react-native';
 
 import QRScannerView from './QRScannerView'
+
 const pixelRatio = PixelRatio.get()
 
 /**
@@ -34,6 +26,12 @@ export default class QRScanner extends PureComponent {
     onRead: ()=>{},
     renderTopView: () =>{},
     renderBottomView: ()=><View style={{flex:1,backgroundColor:'#0000004D'}}/>,
+    androidCameraPermissionOptions: {
+      title: 'Permission to use camera',
+      message: 'We need your permission to use your camera',
+      buttonPositive: 'Ok',
+      buttonNegative: 'Cancel',
+    },
     rectHeight: 200,
     rectWidth: 200,
     flashMode: false,   // 手电筒模式
@@ -43,7 +41,7 @@ export default class QRScanner extends PureComponent {
     translucent: false,
     isRepeatScan: false
   }
-  
+
   render() {
     return (
       <View style={{
@@ -53,9 +51,10 @@ export default class QRScanner extends PureComponent {
          style={{
           flex: 1
         }}
+          androidCameraPermissionOptions={this.props.androidCameraPermissionOptions}
           onBarCodeRead={this._handleBarCodeRead}
           barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
-          flashMode={!this.props.flashMode ? RNCamera.Constants.FlashMode.off : RNCamera.Constants.FlashMode.torch} 
+          flashMode={!this.props.flashMode ? RNCamera.Constants.FlashMode.off : RNCamera.Constants.FlashMode.torch}
           zoom={this.props.zoom}>
           <View style={[styles.topButtonsContainer, this.props.topViewStyle]}>
             {this.props.renderTopView()}
