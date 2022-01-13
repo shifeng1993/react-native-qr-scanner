@@ -9,7 +9,7 @@ def computeVersionName() {
 }
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
