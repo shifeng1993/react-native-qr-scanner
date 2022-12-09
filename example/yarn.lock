@@ -4108,8 +4108,8 @@ punycode@^2.1.0:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
 
 qs@~6.5.1:
-  version "6.5.2"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
+  version "6.5.3"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.3.tgz#3aeeffc91967ef6e35c0e488ef46fb296ab76aad"
 
 query-string@^6.1.0:
   version "6.1.0"
@@ -4188,6 +4188,13 @@ react-native-drawer-layout@1.3.2:
 react-native-image-picker@^0.26.10:
   version "0.26.10"
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-0.26.10.tgz#0bb9ab928984948c67aee0b9e64216bee007a9fc"
+
+"react-native-qr-scanner@github:shifeng1993/react-native-qr-scanner#master":
+  version "1.3.2"
+  uid ceaec8ae6abd1bb60d2dcc63bcb0233446848fb1
+  resolved "https://codeload.github.com/shifeng1993/react-native-qr-scanner/tar.gz/ceaec8ae6abd1bb60d2dcc63bcb0233446848fb1"
+  dependencies:
+    prop-types "15.5.10"
 
 react-native-safe-area-view@^0.7.0:
   version "0.7.0"
